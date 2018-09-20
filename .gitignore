@@ -1,1 +1,5 @@
-Makefile ETEC_ST_List.txt ETEC_LTST_List.txt GEMS_1_Isolates.txt
+nbproject
+dist
+build
+.dep.inc
+Makefile
