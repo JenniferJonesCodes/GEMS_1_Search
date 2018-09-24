@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
  * File:   main.cpp
  * Author: jjones3
@@ -36,7 +30,7 @@ ofstream fileOut;
 
 int getInput(ifstream& infile);
 int printArray(bacteria a[], int size, ofstream& name);
-int searchLocation (string strain, bacteria a[], int size, ofstream& stream);
+int searchLocation (bacteria a[], bacteria b[], int size, ofstream& stream);
 bacteria inital = {"0", "0", "0", "0"};
 bacteria current;
 const int SIZE = 30000;
@@ -63,7 +57,7 @@ int main() {
         exit(1);
     }
 
-    //initialize all values in repository to 0
+    //initialize all values in repo and list array to 0
     for (int i = 0; i < SIZE; i++){
         repository[i] = inital;
         list[i] = inital;
@@ -81,29 +75,31 @@ int main() {
 
     fileIn.close();
 
-    //ETEC list
+    //ETEC list we need locations for
     fileIn1.open("ETEC_List.txt");
     if (fileIn1.fail()){
         cout <<"File in 1 Failure" <<endl;
         exit (1);
     }
     
-    //fill search repo
-  
+    //fill search list
+    int t=0;
     do{
         getInput(fileIn);
         list[i]= current;
+        t++;
     } while (!fileIn.eof());
+    
+    fileIn.close();
 
     //search for location and output file
-    do {
-        fileIn1 >> etec;
-        searchLocation(repository, list, SIZE, fileOut);
-    } while (!fileIn1.eof());
+    //do {
+        //fileIn1 >> etec;
+        searchLocation(list, repository, SIZE, fileOut);
+    //} while (!fileIn1.eof());
 
-    //printArray(repository, SIZE, fileOut);
+    printArray(list, SIZE, fileOut);
 
-    fileIn1.close();
     fileOut.close();
     
     return 0;
@@ -122,10 +118,12 @@ int printArray(bacteria a[], int size, ofstream& name){
 
 int searchLocation(bacteria a[], bacteria b[], int size, ofstream& stream){
     for (int i=0; i < size; i++){
-        string sID = a[i].ID;
-        string sIsolate = a[i].ID;
-        if (b[i].ID == sID && b[i].isolate == sIsolate);
-            stream << a[i].ID <<","<< a[i].isolate <<","<< a[i].note <<","<< a[i].box <<","<< a[i].location <<endl;
+        for (int j=0; j<size; j++){
+            string sID = a[i].ID;
+            string sIsolate = a[i].isolate;
+            if (b[j].ID == sID && b[j].isolate == sIsolate);
+                stream << a[i].ID <<","<< a[i].isolate <<","<< a[i].note <<","<< a[i].box <<","<< a[i].location <<endl;
+        }
     }
     return 0;
 }
