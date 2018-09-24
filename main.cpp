@@ -119,9 +119,7 @@ int printArray(bacteria a[], int size, ofstream& name){
 int searchLocation(bacteria a[], bacteria b[], int size, ofstream& stream){
     for (int i=0; i < size; i++){
         for (int j=0; j<size; j++){
-            string sID = a[i].ID;
-            string sIsolate = a[i].isolate;
-            if (b[j].ID == sID && b[j].isolate == sIsolate);
+            if (b[j].ID == a[i].ID && b[j].isolate == a[i].isolate);
                 stream << a[i].ID <<","<< a[i].isolate <<","<< a[i].note <<","<< a[i].box <<","<< a[i].location <<endl;
         }
     }
