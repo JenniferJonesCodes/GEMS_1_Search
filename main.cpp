@@ -20,7 +20,6 @@ struct bacteria
 {
     string ID;
     string isolate;
-    string note;
     string box;
     string location;
 };
@@ -30,8 +29,8 @@ ofstream fileOut;
 
 int getInput(ifstream& infile);
 int printArray(bacteria a[], int size, ofstream& name);
-int searchLocation (bacteria a[], bacteria b[], int size, ofstream& stream);
-int getInputSearchList(ifstream& fileIn);
+int searchLocation (bacteria a[], bacteria b[], int size,  int smallSize, ofstream& stream);
+bacteria getInputSearchList(ifstream& fileIn);
 bacteria current;
 const int SIZE = 30000;
 const int SEARCHLIST = 150;
@@ -41,7 +40,7 @@ bacteria list[SEARCHLIST];
 
 
 int main() {
-    bacteria initial = {"0", "0", "0", "0", "0"};
+    bacteria initial = {"0", "0", "0", "0"};
     //repository file
     fileIn.open("GEMS_1_Isolates.txt");
 
@@ -69,14 +68,11 @@ int main() {
     
     //take in values for repository array
     int i=0;
-    int count = 0;
     do{
         getInput(fileIn);
         repository[i]= current;
         i++;
-       count++;
     } while (!fileIn.eof());
-
     fileIn.close();
 
     //ETEC list we need locations for
@@ -86,23 +82,21 @@ int main() {
         exit (1);
     }
     
+    //set current back to zero so nothing carries over
+    current = initial;
     //fill search list
     int t=0;
     do{
         getInputSearchList(fileIn1);
-        list[i]= current;
+        list[t] = current;
         t++;
     } while (!fileIn.eof());
     
     fileIn.close();
 
-    //search for location and output file
-    //do {
-        //fileIn1 >> etec;
-        searchLocation(list, repository, SIZE, fileOut);
-    //} while (!fileIn1.eof());
-
-    printArray(list, SIZE, fileOut);
+    //searchLocation(repository, list, SIZE, SEARCHLIST, fileOut);
+ 
+    //printArray(list, SIZE, fileOut);
 
     fileOut.close();
     
@@ -110,29 +104,30 @@ int main() {
 }
 
 int getInput(ifstream& infile){
-    infile >> current.ID >> current.isolate>> current.note >> current.box >> current.location;
+    infile >> current.ID >> current.isolate>> current.box >> current.location;
     return 0;
 }
 
-int getInputSearchList(ifstream& fileIn){
+bacteria getInputSearchList(ifstream& fileIn){
     fileIn >> current.ID >> current.isolate;
-    current.note = " ";
+    cout << current.isolate << endl;
     current.box =" "; 
     current.location= " ";
-    return 0;
+    return current;
 }
 
 int printArray(bacteria a[], int size, ofstream& name){
     for (int i=0; i < size; i++)
-        name << a[i].ID <<" " <<a[i].isolate <<" "<<a[i].note <<","<< a[i].box<<" "<< a[i].location <<endl;
+        name << a[i].ID <<" " <<a[i].isolate  <<","<< a[i].box<<" "<< a[i].location <<endl;
     return 0;
 }
 
-int searchLocation(bacteria a[], bacteria b[], int size, ofstream& stream){
-    for (int i=0; i < size; i++){
-        for (int j=0; j<size; j++){
-            if (b[j].ID == a[i].ID && b[j].isolate == a[i].isolate);
-                stream << a[i].ID <<","<< a[i].isolate <<","<< a[i].note <<","<< a[i].box <<","<< a[i].location <<endl;
+int searchLocation(bacteria repo[], bacteria searchList[], int size, int smallSize, ofstream& stream){
+    for (int i=0; i < smallSize; i++){
+        for (int j=0; j< size; j++){
+            if ((searchList[i].ID == repo[j].ID) && (searchList[i].isolate == repo[j].isolate)){
+                stream << repo[j].ID <<","<< repo[j].isolate <<","<< repo[j].box <<","<< repo[j].location <<endl;
+            }    
         }
     }
     return 0;
