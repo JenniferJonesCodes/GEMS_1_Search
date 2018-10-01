@@ -31,15 +31,17 @@ ofstream fileOut;
 int getInput(ifstream& infile);
 int printArray(bacteria a[], int size, ofstream& name);
 int searchLocation (bacteria a[], bacteria b[], int size, ofstream& stream);
-bacteria inital = {"0", "0", "0", "0"};
+int getInputSearchList(ifstream& fileIn);
 bacteria current;
 const int SIZE = 30000;
+const int SEARCHLIST = 150;
 string etec, check;
 bacteria repository[SIZE];
-bacteria list[200];
+bacteria list[SEARCHLIST];
 
 
 int main() {
+    bacteria initial = {"0", "0", "0", "0", "0"};
     //repository file
     fileIn.open("GEMS_1_Isolates.txt");
 
@@ -59,10 +61,12 @@ int main() {
 
     //initialize all values in repo and list array to 0
     for (int i = 0; i < SIZE; i++){
-        repository[i] = inital;
-        list[i] = inital;
+        repository[i] = initial;
     }
-
+    for (int j = 0; j < SEARCHLIST; j++){
+        list[j] = initial;
+    }
+    
     //take in values for repository array
     int i=0;
     int count = 0;
@@ -76,7 +80,7 @@ int main() {
     fileIn.close();
 
     //ETEC list we need locations for
-    fileIn1.open("ETEC_List.txt");
+    fileIn1.open("ETEC_ST_List.txt");
     if (fileIn1.fail()){
         cout <<"File in 1 Failure" <<endl;
         exit (1);
@@ -85,7 +89,7 @@ int main() {
     //fill search list
     int t=0;
     do{
-        getInput(fileIn);
+        getInputSearchList(fileIn1);
         list[i]= current;
         t++;
     } while (!fileIn.eof());
@@ -107,6 +111,14 @@ int main() {
 
 int getInput(ifstream& infile){
     infile >> current.ID >> current.isolate>> current.note >> current.box >> current.location;
+    return 0;
+}
+
+int getInputSearchList(ifstream& fileIn){
+    fileIn >> current.ID >> current.isolate;
+    current.note = " ";
+    current.box =" "; 
+    current.location= " ";
     return 0;
 }
 
