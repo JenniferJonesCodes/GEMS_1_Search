@@ -75,7 +75,7 @@
 500067	Shigella_flexneri_6	No_Info	6/17/2008	1A	    H10
 500068	Shigella_flexneri_6	No_Info	6/17/2008	1A	    I1
 500081	Shigella_flexneri_3a	No_Info	6/17/2008	1A	    I2
-500084	Shigella_sonnei ll	No_Info	6/17/2008	1A	    I3
+500084	Shigella_sonnei_ll	No_Info	6/17/2008	1A	    I3
 500088	Shigella_boydii	No_Info	6/17/2008	1A	    I4
 500201	Shigella_flexneri_7	No_Info	6/17/2008	1A	    I5
 500229	Shigella_flexneri_2a	No_Info	6/17/2008	1A	    I6

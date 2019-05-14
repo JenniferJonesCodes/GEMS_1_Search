@@ -28,7 +28,7 @@ struct bacteria
 
 bacteria initial = {"0", "0", "0","0", "0", "0"};
 bacteria current;
-const int SIZE = 12000;
+const int SIZE = 11783;
 const int SEARCHLIST = 474;
 bacteria repository[SIZE];
 bacteria list[SEARCHLIST];
@@ -62,8 +62,9 @@ int searchLocation(bacteria repo[], bacteria searchList[], int size, int smallSi
         {
             if ((searchList[i].ID == repo[j].ID) && (searchList[i].isolate == repo[j].isolate))
             {
+                cout << "running" <<endl;
                 stream << repo[j].ID <<","<< repo[j].isolate <<","<< repo[j].box <<","<< repo[j].location <<endl;
-                cout<< "running" <<endl;
+                
                 break;
             }    
         }
@@ -79,7 +80,7 @@ int main() {
     fileIn.open("GEMS_1_Isolates.txt");
 
     //output file
-    fileOut.open("GEMS_Locations.txt");
+    fileOut.open("GEMS_Locations.csv");
 
     //file success
     if (fileIn.fail())
@@ -125,6 +126,7 @@ int main() {
     
     //set current back to zero so nothing carries over
     current = initial;
+    
     //fill search list
     for (int i =0; i <SEARCHLIST; i++)
     {
@@ -133,7 +135,7 @@ int main() {
     }
     
     fileIn.close();
-
+    
     searchLocation(repository, list, SIZE, SEARCHLIST, fileOut);
 
     fileOut.close();
