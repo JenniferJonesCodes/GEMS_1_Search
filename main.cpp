@@ -20,24 +20,32 @@ struct bacteria
 {
     string ID;
     string isolate;
+    string note;
+    string date;
     string box;
     string location;
 };
 
-bacteria initial = {"0", "0", "0", "0"};
-bacteria current = initial;
-const int SIZE = 13000;
-const int SEARCHLIST = 303;
+bacteria initial = {"0", "0", "0","0", "0", "0"};
+bacteria current;
+const int SIZE = 12000;
+const int SEARCHLIST = 474;
 bacteria repository[SIZE];
 bacteria list[SEARCHLIST];
 
-int getInput(ifstream& infile){
-    infile >> current.ID >> current.isolate>> current.box >> current.location;
-    return 0;
+//dataset input
+bacteria getInput(ifstream& infile){
+    infile >> current.ID >> current.isolate>> current.note >> current.date >>current.box >> current.location;
+    return current;
 }
 
+//take in information id and isolate of specimens to find
 bacteria getInputSearchList(ifstream& fileIn){
     fileIn >> current.ID >> current.isolate;
+    current.note = " ";
+    current.date = " ";
+    current.box = " ";
+    current.location = " ";
     return current;
 }
 
@@ -55,10 +63,12 @@ int searchLocation(bacteria repo[], bacteria searchList[], int size, int smallSi
             if ((searchList[i].ID == repo[j].ID) && (searchList[i].isolate == repo[j].isolate))
             {
                 stream << repo[j].ID <<","<< repo[j].isolate <<","<< repo[j].box <<","<< repo[j].location <<endl;
+                cout<< "running" <<endl;
                 break;
             }    
         }
     }
+    cout<< "end" <<endl;
     return 0;
 }
 
@@ -69,7 +79,7 @@ int main() {
     fileIn.open("GEMS_1_Isolates.txt");
 
     //output file
-    fileOut.open("GEMS_Locations.csv");
+    fileOut.open("GEMS_Locations.txt");
 
     //file success
     if (fileIn.fail())
@@ -96,13 +106,13 @@ int main() {
     }
     
     //take in values for repository array
-    int i=0;
-    do{
+    
+    for (int i=0; i <SIZE; i++)
+    {
         getInput(fileIn);
         repository[i]= current;
-        i++;
-    } while (!fileIn.eof());
-    
+    }
+
     fileIn.close();
 
     //ETEC list we need locations for
